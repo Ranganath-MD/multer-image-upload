@@ -1,11 +1,14 @@
 const express = require("express")
-const port = 8080
+const port = process.env.PORT || 8080;
 const app = express()
 const {upload} = require("./multer")
 const { mongoose } = require('./db')
 const { User } = require("./model")
 app.use('/assets/uploads', express.static(__dirname + '/assets/uploads'));
 
+app.get("/", (req, res) => {
+    res.send("<h1>Image upload </h1>");
+});
 
 app.post("/userinfo", upload.single("image"), (req, res) => {
     const imageUrl = `http://localhost:8080${req.file.destination.slice(1, (req.file.destination.length))}/${req.file.filename}`
